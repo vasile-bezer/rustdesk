@@ -222,6 +222,17 @@ jobs:
           # Verify the patch applied
           grep -n "is_incoming_only" libs/hbb_common/src/config.rs
 
+      - name: Patch for disable settings mode
+        shell: bash
+        run: |
+          # Patch conifg.rs to disable settings access
+          sed -i 's/pub fn is_disable_settings() -> bool {/pub fn is_disable_settings() -> bool { return true; \/\/ patched for quick-support/' \
+            libs/hbb_common/src/config.rs
+          echo "Patched is_disable_settings() to always return true"
+
+          # Verify the patch applied
+          grep -n "is_disable_settings" libs/hbb_common/src/config.rs
+          
       # ── LLVM / Clang ──
       - name: Install LLVM and Clang
         uses: KyleMayes/install-llvm-action@v1

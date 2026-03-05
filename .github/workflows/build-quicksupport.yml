@@ -246,6 +246,19 @@ jobs:
           # Verify the patch applied
           grep -n "is_disable_installation" libs/hbb_common/src/config.rs
 
+      # ── patch source: hide server config from About page ──
+      - name: Hide server config from About page
+        shell: bash
+        run: |
+          # Make get_license() always return empty string so Key/Host/API
+          # are never shown in the About section
+          sed -i 's/pub fn get_license() -> String {/pub fn get_license() -> String { return Default::default(); \/\/ patched: hide server config/' \
+            src/ui_interface.rs
+          echo "Patched get_license() to return empty string"
+
+          # Verify the patch applied
+          grep -n "get_license" src/ui_interface.rs
+      
       # ── LLVM / Clang ──
       - name: Install LLVM and Clang
         uses: KyleMayes/install-llvm-action@v1

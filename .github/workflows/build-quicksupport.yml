@@ -240,11 +240,11 @@ jobs:
         run: |
           # Patch conifg.rs to enable custom client
           sed -i 's/pub fn is_custom_client() -> bool {/pub fn is_custom_client() -> bool { return true; \/\/ patched for quick-support/' \
-            libs/hbb_common/src/config.rs
+            src/common.rs
           echo "Patched is_custom_client() to always return true"
 
           # Verify the patch applied
-          grep -n "is_custom_client" libs/hbb_common/src/config.rs
+          grep -n "is_custom_client" src/common.rs
 
       
       # ── patch source: disable installation mode ──

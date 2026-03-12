@@ -235,16 +235,16 @@ jobs:
           grep -n "is_disable_settings" libs/hbb_common/src/config.rs
 
       # ── patch source: enable custom client mode ──
-      - name: Patch for enable custom client mode
+      - name: Patch APP_NAME for custom client
         shell: bash
         run: |
-          # Patch conifg.rs to enable custom client
-          sed -i 's/pub fn is_custom_client() -> bool {/pub fn is_custom_client() -> bool { return true; \/\/ patched for quick-support/' \
-            src/common.rs
-          echo "Patched is_custom_client() to always return true"
+          # Change the default APP_NAME from "RustDesk" to "RustDesk UniFE"
+          sed -i 's/RwLock::new("RustDesk"/RwLock::new("RustDesk UniFE"/' \
+            libs/hbb_common/src/config.rs
+          echo "Patched APP_NAME to RustDesk UniFE"
 
           # Verify the patch applied
-          grep -n "is_custom_client" src/common.rs
+          grep -n "APP_NAME" libs/hbb_common/src/config.rs
 
       
       # ── patch source: disable installation mode ──
